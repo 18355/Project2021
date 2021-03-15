@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href={{url_for('static',filename='styles.css')}}>
+    <title>Contents</title>
+</head>
+<body>
+<div class="bd-example" align="middle">
+<image src="{{ url_for('static', filename='items.jpg')}}" align="middle" />
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Cost in $</th>
+            <th>Description</th>
+            <th>Add image</th>
+            <th>Delete?</th>
+        </tr>
+        {% for item in results %}
+        <tr>
+            <td>{{ item[1]}}</td>
+            <td>{{ item[2]}}</td>
+            <td>{{ item[3]}}</td>
+            <td>
+                <form action="upload" method="post" enctype="multipart/form-data">
+                <input type="file" name="file"><br>
+                <input type="text" name="message"><br><br>
+                <input type="submit" value="Upload">
+                </form>
+            </td>
+            <td>
+                <form action="/delete" method="post">
+                <input type="hidden" name="item_name" value="{{item[0]}}">      <!--Deleting button-->
+                <input type="submit" value="delete">
+                </form>
+            </td>
+            
+        </tr>
+        {% endfor %}
+    </table>
+        <form action="/add" method="post">
+        <h2>Enter a new item: </h2>
+       
+            <tr>
+                
+                <input type="text" name="item_name">
+                <input type="number" name="item_cost" value="0">
+                <input type="text" name="item_description">
+                <input type="submit" value="Add item">
+            </tr>
+        </form>
+</body>
+</html>
